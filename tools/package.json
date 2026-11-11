@@ -1,0 +1,15 @@
+{
+  "name": "eiffel-1887-tools",
+  "private": true,
+  "type": "module",
+  "description": "Record the museum playthrough and measure page performance in a real browser.",
+  "scripts": {
+    "check": "node check.mjs",
+    "check:self-test": "node check.mjs --self-test",
+    "record": "node record.mjs",
+    "perf": "node perf.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.64.1"
+  }
+}

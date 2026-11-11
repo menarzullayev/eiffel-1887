@@ -3,3 +3,5 @@ __pycache__/
 .playwright-mcp/
 .DS_Store
 Thumbs.db
+out/
+tools/node_modules/
