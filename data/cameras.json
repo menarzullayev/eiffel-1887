@@ -1,0 +1,198 @@
+{
+ "model": "Level camera (no tilt or roll) at eye height 1.6 m, with a rising front: the optical axis is horizontal and the principal point is free, as on a view camera. For each camera distance from 80 to 3000 m (0.5 m steps) the projection is linear in focal length, principal point and sideways offset; solved by least squares, keeping the distance with the smallest pixel error.",
+ "units": "metres, model coordinates (y up, the Champ-de-Mars side is +z); pixels on the photo file",
+ "cameras": {
+  "1888-11-23": {
+   "photo": "photos/1888-11-23.jpg",
+   "status": "used",
+   "reason": null,
+   "position_m": [
+    8.31,
+    1.6,
+    228.0
+   ],
+   "focal_px": 770.6,
+   "principal_point_px": [
+    346.8,
+    728.1
+   ],
+   "image_size_px": [
+    629,
+    800
+   ],
+   "vertical_fov_deg": 54.863,
+   "rms_px": 1.45,
+   "max_px": 1.67,
+   "points": [
+    {
+     "u": 170.0,
+     "v": 505.0,
+     "p": [
+      -35.8,
+      57.6,
+      35.8
+     ]
+    },
+    {
+     "u": 457.0,
+     "v": 505.0,
+     "p": [
+      35.8,
+      57.6,
+      35.8
+     ]
+    },
+    {
+     "u": 170.0,
+     "v": 530.0,
+     "p": [
+      -35.8,
+      50.6,
+      35.8
+     ]
+    },
+    {
+     "u": 457.0,
+     "v": 530.0,
+     "p": [
+      35.8,
+      50.6,
+      35.8
+     ]
+    },
+    {
+     "u": 247.5,
+     "v": 310.0,
+     "p": [
+      -18.5,
+      115.0,
+      18.5
+     ]
+    },
+    {
+     "u": 385.0,
+     "v": 310.0,
+     "p": [
+      18.5,
+      115.0,
+      18.5
+     ]
+    },
+    {
+     "u": 247.5,
+     "v": 327.0,
+     "p": [
+      -18.5,
+      111.0,
+      18.5
+     ]
+    },
+    {
+     "u": 385.0,
+     "v": 327.0,
+     "p": [
+      18.5,
+      111.0,
+      18.5
+     ]
+    }
+   ]
+  },
+  "1889-03-15": {
+   "photo": "photos/1889-03-15.jpg",
+   "status": "rejected",
+   "reason": "no level camera fits the eight floor points better than 5.0 px rms; the print is probably cropped, tilted or retouched",
+   "position_m": [
+    4.87,
+    1.6,
+    112.5
+   ],
+   "focal_px": 175.7,
+   "principal_point_px": [
+    229.1,
+    552.1
+   ],
+   "image_size_px": [
+    441,
+    584
+   ],
+   "vertical_fov_deg": 117.93,
+   "rms_px": 5.0,
+   "max_px": 7.18,
+   "points": [
+    {
+     "u": 138.0,
+     "v": 425.0,
+     "p": [
+      -35.8,
+      57.6,
+      35.8
+     ]
+    },
+    {
+     "u": 298.0,
+     "v": 425.0,
+     "p": [
+      35.8,
+      57.6,
+      35.8
+     ]
+    },
+    {
+     "u": 178.75,
+     "v": 337.5,
+     "p": [
+      -18.5,
+      115.0,
+      18.5
+     ]
+    },
+    {
+     "u": 261.0,
+     "v": 337.5,
+     "p": [
+      18.5,
+      115.0,
+      18.5
+     ]
+    },
+    {
+     "u": 179.0,
+     "v": 347.5,
+     "p": [
+      -18.5,
+      111.0,
+      18.5
+     ]
+    },
+    {
+     "u": 261.0,
+     "v": 347.5,
+     "p": [
+      18.5,
+      111.0,
+      18.5
+     ]
+    },
+    {
+     "u": 206.0,
+     "v": 91.0,
+     "p": [
+      -8.3,
+      276.0,
+      8.3
+     ]
+    },
+    {
+     "u": 236.0,
+     "v": 91.0,
+     "p": [
+      8.3,
+      276.0,
+      8.3
+     ]
+    }
+   ]
+  }
+ }
+}
