@@ -3,6 +3,8 @@
 An interactive Three.js exhibit of how the Eiffel Tower was built, from the first foundation
 digs on 26 January 1887 to the lifts entering service in May 1889. The page is in Uzbek.
 
+**Live page:** <https://menarzullayev.github.io/eiffel-1887/>
+
 - **Timeline.** 13 dated milestones. Each one names its sources and says where they disagree.
 - **3D model.** Foundations, wooden scaffolding, creeper cranes, hot-rivet sparks and the flag on
   31 March 1889 follow the date on the timeline.
