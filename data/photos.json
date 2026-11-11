@@ -1,0 +1,207 @@
+[
+ {
+  "date": "1887-04-15",
+  "date_precision": "month",
+  "file": "photos/1887-04-15.jpg",
+  "author": "Louis-Émile Durandelle",
+  "license": "Public domain",
+  "commons": "https://commons.wikimedia.org/wiki/File:Louis-%C3%89mile_Durandelle,_Placement_of_the_Caissons,_Eiffel_Tower,_Paris,_April_1887.jpg"
+ },
+ {
+  "date": "1887-08-10",
+  "file": "photos/1887-08-10.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._PH9114-1.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": null
+ },
+ {
+  "date": "1887-09-09",
+  "file": "photos/1887-09-09.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._PH9114-1.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": null
+ },
+ {
+  "date": "1887-12-07",
+  "date_precision": "day",
+  "file": "photos/1887-12-07.jpg",
+  "author": "Unknown author",
+  "license": "Public domain",
+  "commons": "https://commons.wikimedia.org/wiki/File:Eiffelturm_1887.jpg"
+ },
+ {
+  "date": "1887-12-12",
+  "file": "photos/1887-12-12.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-5.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": null
+ },
+ {
+  "date": "1888-02-10",
+  "date_precision": "day",
+  "file": "photos/1888-02-10.jpg",
+  "author": "Hippolyte Blancard",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Vue_de_la_tour_Eiffel_en_construction_le_10_f%C3%A9vrier_1888_en_vue_de_l%27Exposition_universelle_de_1889,_7%C3%A8me_arrondissement,_PH73441.jpg"
+ },
+ {
+  "date": "1888-03-15",
+  "file": "photos/1888-03-15.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-5.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 57
+ },
+ {
+  "date": "1888-06-14",
+  "file": "photos/1888-06-14.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-9.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 95
+ },
+ {
+  "date": "1888-07-10",
+  "file": "photos/1888-07-10.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-9.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 107
+ },
+ {
+  "date": "1888-08-14",
+  "file": "photos/1888-08-14.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._14_septembre_1888,_PH9114-12.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 116
+ },
+ {
+  "date": "1888-09-14",
+  "file": "photos/1888-09-14.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._14_septembre_1888,_PH9114-12.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 133
+ },
+ {
+  "date": "1888-10-14",
+  "file": "photos/1888-10-14.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-13.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 152
+ },
+ {
+  "date": "1888-11-14",
+  "file": "photos/1888-11-14.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-13.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 179
+ },
+ {
+  "date": "1888-11-23",
+  "date_precision": "day",
+  "file": "photos/1888-11-23.jpg",
+  "author": "Louis-Émile Durandelle",
+  "license": "Public domain",
+  "commons": "https://commons.wikimedia.org/wiki/File:Louis-Emile_Durandelle,_The_Eiffel_Tower_-_State_of_the_Construction,_1888.jpg"
+ },
+ {
+  "date": "1888-12-26",
+  "file": "photos/1888-12-26.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-16.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 217
+ },
+ {
+  "date": "1889-01-20",
+  "file": "photos/1889-01-20.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-16.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 252
+ },
+ {
+  "date": "1889-02-12",
+  "file": "photos/1889-02-12.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-17.jpg",
+  "mount_part": "left",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 280
+ },
+ {
+  "date": "1889-03-12",
+  "file": "photos/1889-03-12.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-17.jpg",
+  "mount_part": "right",
+  "date_source": "handwritten caption under the print",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 296
+ },
+ {
+  "date": "1889-03-15",
+  "date_precision": "day",
+  "file": "photos/1889-03-15.jpg",
+  "author": "Unknown author",
+  "license": "Public domain",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_tour_eiffel7.JPG"
+ },
+ {
+  "date": "1889-03-31",
+  "file": "photos/1889-03-31.jpg",
+  "author": "Théophile Féau",
+  "license": "CC0",
+  "commons": "https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-19.jpg",
+  "mount_part": "whole",
+  "date_source": "Commons/Paris Musées record",
+  "viewpoint": "a tower of the old Trocadéro palace",
+  "height_measured_m": 300
+ }
+]

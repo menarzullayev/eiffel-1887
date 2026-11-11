@@ -1,0 +1,5 @@
+_preview.html
+__pycache__/
+.playwright-mcp/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,1156 @@
+<title>Eyfel minorasi qurilishi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: full-bleed 3D stage read like an engineering plate; dossier card on the right, timeline rail along the bottom.
+   Below 760px the stage, rail and dossier stack into one scrolling column. */
+:root {
+  --bg: #E3E7E9;
+  --ground: #CEC8BC;
+  --grid: #B4B8B6;
+  --surface: rgba(246, 247, 247, .92);
+  --ink: #1A2127;
+  --muted: #55616A;
+  --rule: #C2C9CD;
+  --iron: #8A3924;
+  --iron-deck: #6E3022;
+  --spark: #D9681F;
+  --stone: #B3A992;
+  --pit: #4A3F33;
+  --wood: #8E6A43;
+  --water: #9AB2BD;
+  --crane: #2C3238;
+  --sky: #F4F6F7;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1419; --ground: #181D22; --grid: #29313A; --surface: rgba(19, 25, 31, .9);
+    --ink: #E8E4DD; --muted: #97A3AC; --rule: #2B353E; --iron: #C8644A; --iron-deck: #A9533D;
+    --spark: #F2A04A; --stone: #5F5A50; --pit: #07090B; --wood: #806142; --water: #1E3442;
+    --crane: #AEB6BC; --sky: #1B232B; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1419; --ground: #181D22; --grid: #29313A; --surface: rgba(19, 25, 31, .9);
+  --ink: #E8E4DD; --muted: #97A3AC; --rule: #2B353E; --iron: #C8644A; --iron-deck: #A9533D;
+  --spark: #F2A04A; --stone: #5F5A50; --pit: #07090B; --wood: #806142; --water: #1E3442;
+  --crane: #AEB6BC; --sky: #1B232B; color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-body); overflow: hidden; }
+.app { position: relative; height: 100%; overflow: hidden; }
+
+.stage { position: absolute; inset: 0; }
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.stage canvas:active { cursor: grabbing; }
+
+.masthead { position: absolute; top: 20px; left: max(24px, env(safe-area-inset-left, 0px)); max-width: 440px; pointer-events: none; display: grid; gap: 2px; }
+.eyebrow { margin: 0; font: 500 11px/1.4 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0; font: 700 26px/1.15 var(--font-display); text-wrap: balance; }
+.readout { margin: 14px 0 0; font: 500 44px/1 var(--font-display); letter-spacing: -.01em; font-variant-numeric: lining-nums; }
+.meter { margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; font: 400 13px/1.3 var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.meter b { font: 500 22px/1 var(--font-mono); color: var(--iron); }
+.meter .flagnote { color: var(--muted); }
+
+.tags { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.tag { position: absolute; left: 0; top: 0; display: flex; gap: 6px; align-items: baseline; white-space: nowrap; font: 400 11px/1 var(--font-mono); color: var(--muted); background: var(--surface); border: 1px solid var(--rule); padding: 4px 6px; border-radius: 2px; transform: translate(10px, -50%); opacity: .7; }
+.tag.flip { transform: translate(calc(-100% - 10px), -50%); }
+.tag b { font-weight: 500; color: var(--ink); }
+.tag.reached { opacity: 1; border-color: var(--iron); }
+.tag.reached b { color: var(--iron); }
+
+.hint { margin: 10px 0 0; max-width: 300px; font: 400 11px/1.5 var(--font-mono); color: var(--muted); }
+
+.rail { position: absolute; left: max(24px, env(safe-area-inset-left, 0px)); right: max(24px, env(safe-area-inset-right, 0px)); bottom: 20px; display: flex; align-items: center; gap: 16px; padding: 10px 16px 8px; background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; backdrop-filter: blur(8px); }
+.play { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px 0 12px; border: 1px solid var(--iron); border-radius: 2px; background: transparent; color: var(--iron); font: 500 13px/1 var(--font-body); cursor: pointer; }
+.play:hover { background: color-mix(in srgb, var(--iron) 10%, transparent); }
+.play svg { width: 14px; height: 14px; fill: currentColor; }
+.play .i-pause { display: none; }
+.play[aria-pressed="true"] .i-play { display: none; }
+.play[aria-pressed="true"] .i-pause { display: block; }
+.view { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border: 1px solid var(--rule); border-radius: 2px; background: transparent; color: var(--ink); font: 500 13px/1 var(--font-body); cursor: pointer; }
+.view svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.view:hover { border-color: var(--iron); color: var(--iron); }
+.view[aria-pressed="true"] { background: var(--iron); border-color: var(--iron); color: var(--bg); }
+.stage { overflow: hidden; }
+.ovwrap { position: absolute; overflow: hidden; pointer-events: none; }
+.overlay { position: absolute; left: 0; top: 0; max-width: none; transform-origin: 0 0; }
+.ovl { display: none; }
+.app.compare .ovl { display: grid; gap: 4px; margin-top: 6px; }
+.ovl b { font: 500 11px/1.4 var(--font-mono); color: var(--iron); }
+.ovl input { width: 100%; margin: 0; accent-color: var(--iron); }
+@media (min-width: 761px) {
+  .app.compare .dossier { display: none; }
+  .app.compare .plate { left: auto; right: max(24px, env(safe-area-inset-right, 0px)); top: 20px; width: 340px; }
+}
+.track { position: relative; flex: 1; min-width: 0; padding-top: 18px; }
+.ticks { position: absolute; left: 7px; right: 7px; top: 0; height: 16px; }
+.tick { position: absolute; top: 2px; width: 11px; height: 11px; padding: 0; border: 1.5px solid var(--iron); background: var(--surface); transform: translateX(-50%) rotate(45deg); cursor: pointer; border-radius: 1px; }
+.tick:hover, .tick.on { background: var(--iron); }
+.scrub { width: 100%; margin: 0; accent-color: var(--iron); height: 22px; cursor: pointer; }
+.years { position: relative; height: 14px; margin: 0 7px; font: 400 11px/1 var(--font-mono); color: var(--muted); }
+.years span { position: absolute; top: 0; transform: translateX(-2px); }
+.years span::before { content: ""; position: absolute; left: 0; top: -6px; width: 1px; height: 4px; background: var(--muted); }
+
+.dossier { position: absolute; top: 20px; right: max(24px, env(safe-area-inset-right, 0px)); width: min(360px, 34vw); max-height: calc(100% - 136px); overflow: auto; padding: 18px 20px 20px; background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; backdrop-filter: blur(8px); display: grid; gap: 10px; align-content: start; }
+.phase { margin: 0; display: flex; gap: 8px; align-items: center; font: 500 11px/1.4 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--iron); }
+.phase .est { color: var(--muted); border: 1px solid var(--rule); padding: 1px 6px; border-radius: 2px; letter-spacing: .06em; }
+.dossier h2 { margin: 0; font: 700 23px/1.2 var(--font-display); text-wrap: balance; }
+.m-date { margin: -4px 0 0; font: 400 12px/1.4 var(--font-mono); color: var(--muted); }
+.dossier p { margin: 0; }
+.dossier h3 { margin: 6px 0 -4px; font: 500 11px/1.4 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.note { font-size: 13px; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 10px; }
+.src { display: flex; flex-wrap: wrap; gap: 4px 12px; font: 400 12px/1.5 var(--font-mono); }
+.src a, .about a { color: var(--iron); text-underline-offset: 2px; }
+.figures { margin: 6px 0 0; padding-top: 12px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.figures div { min-width: 0; }
+.figures dt { font: 400 11px/1.3 var(--font-mono); color: var(--muted); letter-spacing: .04em; }
+.figures dd { margin: 2px 0 0; font: 700 19px/1.15 var(--font-display); font-variant-numeric: lining-nums tabular-nums; }
+.about { border-top: 1px solid var(--rule); padding-top: 10px; font-size: 13px; color: var(--muted); }
+.about summary { cursor: pointer; font: 500 11px/1.4 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
+.about p { margin-top: 8px; }
+
+.pticks { position: relative; height: 12px; margin: 2px 7px 0; }
+.ptick { position: absolute; top: 0; width: 10px; height: 12px; padding: 0; border: 0; background: transparent; transform: translateX(-50%); cursor: pointer; }
+.ptick::before { content: ""; position: absolute; left: 4px; top: 1px; width: 2px; height: 9px; background: var(--muted); opacity: .55; }
+.ptick:hover::before, .ptick.on::before { background: var(--iron); opacity: 1; width: 3px; left: 3.5px; }
+
+.plate { position: absolute; left: max(24px, env(safe-area-inset-left, 0px)); top: 236px; width: 196px; margin: 0; display: grid; gap: 8px; padding: 8px; background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; backdrop-filter: blur(8px); }
+.plate-open { display: block; padding: 0; border: 0; background: var(--bg); cursor: zoom-in; border-radius: 2px; overflow: hidden; }
+.plate-open img { display: block; width: 100%; height: auto; max-height: 330px; object-fit: contain; object-position: center bottom; }
+.plate figcaption { display: grid; gap: 2px; min-width: 0; font: 400 11px/1.45 var(--font-mono); color: var(--muted); }
+.plate .pk { letter-spacing: .1em; text-transform: uppercase; }
+.plate b { font: 700 16px/1.2 var(--font-display); color: var(--ink); }
+.plate .pt { color: var(--ink); font-family: var(--font-body); font-size: 12.5px; }
+.plate .pm { color: var(--iron); }
+.plate a { color: var(--iron); text-underline-offset: 2px; }
+.pjump { justify-self: start; margin-top: 4px; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 2px; background: transparent; color: var(--ink); font: 500 11px/1.4 var(--font-mono); cursor: pointer; }
+.pjump:hover { border-color: var(--iron); color: var(--iron); }
+
+.lightbox { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 56px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(6px); }
+.lightbox figure { margin: 0; display: grid; gap: 10px; justify-items: center; }
+.lightbox img { display: block; max-width: min(92vw, 900px); max-height: calc(100vh - 140px); object-fit: contain; box-shadow: 0 12px 40px rgba(0, 0, 0, .28); }
+.lightbox figcaption { max-width: 60ch; font: 400 12px/1.5 var(--font-mono); color: var(--muted); text-align: center; }
+.lb-close { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); height: 34px; padding: 0 12px; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); color: var(--ink); font: 500 12px/1 var(--font-body); cursor: pointer; }
+
+:focus-visible { outline: 2px solid var(--iron); outline-offset: 2px; }
+
+@media (max-width: 760px) {
+  body { overflow: auto; }
+  .app { height: auto; overflow: visible; display: flex; flex-direction: column; }
+  .stage { position: relative; inset: auto; display: flex; flex-direction: column; }
+  .stage canvas { order: 1; height: 58svh; min-height: 360px; }
+  .masthead { position: static; max-width: none; padding: 14px max(16px, env(safe-area-inset-right, 0px)) 4px max(16px, env(safe-area-inset-left, 0px)); }
+  h1 { font-size: 21px; }
+  .readout { font-size: 32px; margin-top: 8px; }
+  .hint { display: none; }
+  .rail { position: static; margin: 12px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); gap: 12px; padding: 10px 12px 8px; }
+  .play span, .view span { display: none; }
+  .play, .view { padding: 0 11px; }
+  .dossier { position: static; width: auto; max-height: none; margin: 12px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px)); }
+  .plate { position: static; width: auto; margin: 12px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); grid-template-columns: 112px minmax(0, 1fr); align-items: start; }
+  .plate-open img { max-height: 220px; min-height: 0; }
+}
+</style>
+
+<main class="app">
+  <section class="stage" id="stage" aria-label="Eyfel minorasining 3D modeli">
+    <canvas id="scene"></canvas>
+    <div class="ovwrap" id="ovwrap" aria-hidden="true" hidden><img class="overlay" id="overlay" alt=""></div>
+    <div class="tags" id="tags" aria-hidden="true"></div>
+    <header class="masthead">
+      <p class="eyebrow">Champ de Mars · Parij · 1887–1889</p>
+      <h1>Eyfel minorasi qurilishi</h1>
+      <p class="readout"><time id="date" datetime="1888-08-14">14 avgust 1888</time></p>
+      <p class="meter"><b id="hgt">115</b><span>m</span><span class="flagnote" id="flagnote"></span><span aria-hidden="true">·</span><span id="workday">ish kuni 567</span></p>
+      <p class="hint">Sichqoncha bilan aylantiring, g‘ildirak bilan yaqinlashtiring. Bo‘sh joy: ijro/pauza, ← →: bosqichlar, F: Féau nuqtasi.</p>
+    </header>
+  </section>
+
+  <section class="rail" aria-label="Xronologiya">
+    <button class="play" id="play" type="button" aria-pressed="false" aria-label="Ijro etish">
+      <svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z"/></svg>
+      <svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h3v11H3zM8 1.5h3v11H8z"/></svg>
+      <span id="play-label">Ijro</span>
+    </button>
+    <button class="view" id="feau-view" type="button" aria-pressed="false" aria-label="Féau nuqtasidan solishtirish" title="Kamerani Féau suratga olgan Trocadéro minorasiga qo‘yish (F)">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.8 5.2h3.1l1.3-2h3.6l1.3 2h3.1v8H1.8z"/><circle cx="8" cy="9.1" r="2.5"/></svg>
+      <span>Féau nuqtasi</span>
+    </button>
+    <div class="track">
+      <div class="ticks" id="ticks"></div>
+      <input class="scrub" id="scrub" type="range" min="0" max="851" step="1" value="565" aria-label="Sana">
+      <div class="pticks" id="pticks" aria-label="Arxiv suratlari sanalari"></div>
+      <div class="years" id="years"></div>
+    </div>
+  </section>
+
+  <figure class="plate" id="plate">
+    <button class="plate-open" id="plate-open" type="button" aria-label="Suratni kattalashtirish"><img id="plate-img" src="photos/1888-08-14.jpg" alt="14 avgust 1888: 2-qavat tayyor" width="330" height="720"></button>
+    <figcaption>
+      <span class="pk">Arxiv surati</span>
+      <b id="plate-date">14 avgust 1888</b>
+      <span class="pt" id="plate-title">2-qavat tayyor</span>
+      <span id="plate-who">Théophile Féau · Champ-de-Mars tomondan</span>
+      <span class="pm" id="plate-measure">Suratdan o‘lchov: ≈116 m</span>
+      <span id="plate-lag">sahnadagi kun bilan bir xil</span>
+      <a id="plate-src" href="https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._14_septembre_1888,_PH9114-12.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>
+      <label class="ovl" for="ovl"><span>Model ustida: <b id="ovl-v">55%</b></span><input id="ovl" type="range" min="0" max="100" step="5" value="55"></label>
+      <button class="pjump" id="plate-jump" type="button" hidden>Sahnani shu kunga o‘tkazish</button>
+    </figcaption>
+  </figure>
+
+  <aside class="dossier" id="dossier" aria-live="polite">
+    <p class="phase"><span id="m-phase">2-qavat</span><span class="est" id="m-est" hidden>taxmin</span></p>
+    <h2 id="m-title">2-qavat yakunlandi</h2>
+    <p class="m-date" id="m-date">14 avgust 1888</p>
+    <p id="m-text"></p>
+    <h3>Qanday qilingan</h3>
+    <p id="m-method"></p>
+    <p class="note" id="m-note" hidden></p>
+    <div class="src" id="m-src"></div>
+    <dl class="figures">
+      <div><dt>Metall detallar</dt><dd>18 038</dd></div>
+      <div><dt>Parchin mixlar</dt><dd>2,5 mln</dd></div>
+      <div><dt>Temir</dt><dd>7 300 t</dd></div>
+      <div><dt>Ustaxona chizmalari</dt><dd>5 300</dd></div>
+      <div><dt>Maydondagi ishchilar</dt><dd>150–300</dd></div>
+      <div><dt>Muddat</dt><dd>2 yil 2 oy 5 kun</dd></div>
+    </dl>
+    <details class="about">
+      <summary>Model haqida</summary>
+      <p>Sxematik model. Asosiy o‘lchamlar haqiqiyga yaqin: asos 125 × 125 m, oyoq kengligi 25 m, qavatlar 57,6 / 115 / 276 m, balandlik 300 m. Panjara esa chizmadagi har bir elementni takrorlamaydi.</p>
+      <p>1888-yil martidan keyingi balandliklar Théophile Féau’ning bir nuqtadan olingan suratlaridan o‘lchangan: 1- va 2-qavat orasidagi masofa masshtab qilib olindi, xato taxminan ±10 m. Oraliq kunlar chiziqli hisoblangan. «Taxmin» belgisi bor bosqichlarda manbada aniq raqam yo‘q. Raqamlar: <a href="https://artsandculture.google.com/exhibit/AQIqOkVv" target="_blank" rel="noopener">Google Arts &amp; Culture</a>.</p>
+      <p>Arxiv suratlari Wikimedia Commons’dan olingan: jamoat mulki va CC0 (Féau va Blancard seriyalari: Paris Musées).</p>
+      <p>«Féau nuqtasi» rejimida kamera eski Trocadéro saroyi minorasiga qo‘yiladi (taxminan 680 m masofa, 100 m balandlik). Féau kadrlari bir-biriga fondagi qo‘zg‘almas binolar bo‘yicha moslangan, 31 mart 1889 kadri esa modelga o‘q chizig‘i va to‘rt qavat nuqtasi bo‘yicha bog‘langan. Ekrandagi qoldiq xato 1–3 px.</p>
+      <p>Claude Code bilan yasalgan: tadqiqot agenti xronologiyani manbalari bilan yig‘di, asosiy agent Three.js sahnasini yozdi va brauzerda tekshirdi.</p>
+    </details>
+  </aside>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Arxiv surati" hidden>
+    <figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure>
+    <button class="lb-close" id="lb-close" type="button">Yopish</button>
+  </div>
+</main>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ---------- time ---------- */
+const DAY = 86400000;
+const D = s => { const [y, m, d] = s.split('-').map(Number); return Date.UTC(y, m - 1, d); };
+const START = D('1887-01-26');
+const FOUND_END = D('1887-05-31');
+const METAL_START = D('1887-07-01');
+const SCAFF_OFF_A = D('1888-03-20'), SCAFF_OFF_B = D('1888-05-15');
+const DONE = D('1889-03-31');
+const END = D('1889-05-26');
+const TOTAL_DAYS = Math.round((END - START) / DAY);
+const MONTHS = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
+const fmtDay = ms => { const d = new Date(ms); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
+const fmtMonth = ms => { const d = new Date(ms); return `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const smooth = (a, b, x) => { const u = clamp01((x - a) / (b - a)); return u * u * (3 - 2 * u); };
+
+/* ---------- sourced chronology ---------- */
+const SRC = {
+  ga: ['Google Arts & Culture', 'https://artsandculture.google.com/exhibit/AQIqOkVv'],
+  rhp: ['Rare Historical Photos', 'https://rarehistoricalphotos.com/eiffel-tower-construction/'],
+  orsayCaisson: ["Musée d'Orsay: kesson", 'https://www.musee-orsay.fr/en/artworks/travaux-de-construction-de-la-tour-eiffel-caisson-metallique-air-comprime-larriere-plan-au-centre-le-trocadero-66017'],
+  orsay15: ["Musée d'Orsay: 15.03.1889", 'https://www.musee-orsay.fr/en/artworks/la-tour-eiffel-jusquau-3e-etage-et-le-debut-du-lanternon-le-15-mars-1889-au-second-plan-les-batiments-de-lexposition-universelle-96655'],
+  orsay31: ["Musée d'Orsay: 31.03.1889", 'https://www.musee-orsay.fr/en/artworks/la-tour-eiffel-achevee-le-31-mars-1889-au-second-plan-les-batiments-de-lexposition-universelle-96707'],
+  teCyl: ['toureiffel.paris: domkratlar', 'https://www.toureiffel.paris/en/news/130-years/eiffel-tower-mounted-cylinders'],
+  teQuick: ['toureiffel.paris: qurilish', 'https://www.toureiffel.paris/en/news/130-years/how-did-they-build-tower-so-quickly'],
+  teHeight: ['toureiffel.paris: balandlik', 'https://www.toureiffel.paris/en/news/history-and-culture/300-330-meters-story-towers-height'],
+  teLifts: ['toureiffel.paris: liftlar', 'https://www.toureiffel.paris/en/the-monument/lifts'],
+  uh: ['Unseen Histories', 'https://www.unseenhistories.com/the-eiffel-tower-colourised-1888/'],
+  vt: ['Virginia Tech: qurilish jarayoni', 'https://sites.google.com/vt.edu/theeiffeltower-howitcametobe/design-and-construction-processes/execution'],
+  feauDec: ['Th. Féau: 26.12.1888', 'https://commons.wikimedia.org/wiki/File:Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-16.jpg'],
+};
+
+const MILESTONES = [
+  { d: '1887-01-26', phase: 'Poydevor', title: 'Qazish boshlandi',
+    text: 'Champ de Mars’da to‘rt oyoq uchun chuqurlar qazila boshlandi. Har bir oyoq to‘rtta alohida tosh poydevorga tayanadi, jami 16 ta.',
+    method: 'Sena tomondagi oyoqlar ostida grunt suvli edi. U yerga siqilgan havo bilan ishlaydigan temir kessonlar tushirildi va ishchilar suv sathidan pastda quruq kamerada qazishdi.',
+    note: 'Ayrim manbalarda boshlanish sanasi 28 yanvar. 26 yanvar «2 yil 2 oy 5 kun» muddatiga aniq mos keladi.',
+    src: ['ga', 'orsayCaisson'] },
+  { d: '1887-05-31', month: true, est: true, phase: 'Poydevor', title: 'Poydevorlar tayyor',
+    text: '16 ta tosh poydevor 4–5 oyda quyildi; manbalar muddatda farq qiladi. Har birining ustiga temir oyoqning tagligi o‘rnatildi.',
+    method: 'Tagliklarga qum qutilari va gidravlik domkratlar qo‘yildi. Qumni ozgina chiqarish yoki domkratni burash oyoqni millimetr aniqlikda tushirib-ko‘tarardi.',
+    src: ['ga', 'rhp', 'teCyl'] },
+  { d: '1887-07-01', phase: 'Oyoqlar', title: 'Metall yig‘ish boshlandi',
+    text: 'Detallar Levallois-Perret’dagi Eiffel ustaxonasida tayyorlanib, raqamlangan holda keltirildi. Har bir bo‘lak chizmadagi o‘z joyiga tushadi.',
+    method: 'Parchin mixlarning uchdan ikki qismi ustaxonada qoqildi. Maydonda har bir mixni to‘rt kishi qoqardi: biri qizdiradi, biri ushlab turadi, biri kallak yasaydi, biri bolg‘a uradi.',
+    note: 'Rare Historical Photos’da metall yig‘ish boshlanishi uchun 18 iyul sanasi ham bor.',
+    src: ['ga', 'rhp'] },
+  { d: '1887-12-07', est: true, phase: 'Oyoqlar', title: 'Oyoqlar havozaga tayandi',
+    text: '7 dekabr 1887 dagi surat qiya oyoqlarni yog‘och havozalar ustida ko‘rsatadi: oyoqlar o‘z og‘irligidan ichkariga og‘ib ketmasligi uchun shunday qilingan. Bu kundagi balandlik manbada yo‘q; modeldagi ~30 m taxmin.',
+    method: '12 ta 30 metrli va 4 ta 45 metrli yog‘och havoza. Kichik ko‘tarish kranlari to‘g‘ridan-to‘g‘ri minoraga mahkamlangan.',
+    note: 'Rare Historical Photos katta havozalarni 40 metr deb yozadi.',
+    src: ['ga', 'rhp'] },
+  { d: '1888-03-20', phase: '1-qavat', title: '1-qavat yakunlandi',
+    text: 'To‘rt oyoq 57 metr balandlikda gorizontal to‘sinlar bilan birlashdi. Shundan keyin inshoot o‘zini o‘zi ko‘tara boshladi va havozalar kerak bo‘lmay qoldi.',
+    method: 'Oyoqlar uchrashadigan joyda xato millimetrlarda bo‘lishi kerak edi. Qum qutilari va gidravlik domkratlar oyoqlarni aynan kerakli holatga keltirdi.',
+    note: 'Bu sana bo‘yicha manbalar eng ko‘p farq qiladi: 20 mart, 1 aprel va 29 aprel 1888.',
+    src: ['rhp', 'ga', 'teCyl'] },
+  { d: '1888-05-15', month: true, phase: '2-qavat', title: 'Ikkinchi bosqich boshlandi',
+    text: 'Oddiy kranlar faqat 1-qavatgacha yetardi. Yuqoriroq ishlash uchun kranlar oyoqlarning ichiga ko‘chirildi.',
+    method: 'Bug‘ bilan ishlaydigan «o‘rmalovchi» kranlar kelajakdagi lift relslari bo‘ylab minora bilan birga yuqoriga chiqib bordi.',
+    note: 'Google Arts & Culture ikkinchi bosqich boshlanishini iyun 1888 deb beradi.',
+    src: ['rhp', 'ga', 'vt'] },
+  { d: '1888-08-14', phase: '2-qavat', title: '2-qavat yakunlandi',
+    text: 'Minora 115 metrga yetdi. Shu balandlikdan yuqorida to‘rt oyoq bitta ustunga qo‘shiladi.',
+    method: 'Detallar o‘rmalovchi kranlar bilan ko‘tarildi; parchin brigadalari ish joyiga o‘z o‘choqlari bilan chiqardi.',
+    note: 'Rasmiy saytda 14 avgust; Unseen Histories ikkinchi bosqich tugashini iyul 1888 deb yozadi.',
+    src: ['teQuick', 'uh'] },
+  { d: '1888-12-26', measured: true, phase: 'Yuqori ustun', title: 'Yuqori ustun ko‘tarilmoqda',
+    text: 'Féau’ning 26 dekabr surati bo‘yicha minora ≈217 m ga yetgan (suratdan o‘lchov, ±10 m). Rare Historical Photos yil oxirida minora 600 futdan (≈183 m) oshganini yozadi; o‘lchov bunga zid emas.',
+    method: 'Yuqoriga chiqqan sari detallar yengillashadi. Ularni o‘rmalovchi kranlar va lebyodkalar ko‘tardi.',
+    src: ['feauDec', 'rhp'] },
+  { d: '1889-03-15', phase: 'Yuqori ustun', title: '3-qavat va mayoq',
+    text: 'Durandelle surati minorani 3-qavatgacha (276 m) va cho‘qqidagi mayoq qurilishi boshlanganini ko‘rsatadi.',
+    method: 'Cho‘qqi qismida ish maydoni bir necha metrga torayadi; detallar kichik va yengil.',
+    src: ['orsay15'] },
+  { d: '1889-03-31', phase: 'Yakun', title: 'Qurilish tugadi',
+    text: 'Cho‘qqiga Fransiya bayrog‘i ko‘tarildi. Minora 300 metr, bayroq ustuni bilan taxminan 312 m. O‘sha paytda bu dunyodagi eng baland inshoot edi.',
+    method: 'Jami muddat: 2 yil 2 oy 5 kun. Taxminan 18 038 detal va 2,5 million parchin mix.',
+    note: 'Ayrim manbalarda montaj 30 martda tugagan deyiladi.',
+    src: ['orsay31', 'ga', 'teHeight'] },
+  { d: '1889-05-06', phase: 'Ochilish', title: 'Butunjahon ko‘rgazmasi ochildi',
+    text: 'Parijda Exposition Universelle ochildi. Minora ko‘rgazmaning bosh inshooti edi.',
+    method: 'Liftlar hali sozlanayotgan edi.',
+    src: ['rhp'] },
+  { d: '1889-05-15', phase: 'Ochilish', title: 'Minora ommaga ochildi',
+    text: 'Ko‘rgazma ochilganidan 9 kun keyin tashrif buyuruvchilar minoraga chiqa boshladi.',
+    method: 'Dastlabki kunlarda tashrifchilar asosan zinadan chiqdi.',
+    note: 'Liftlar qachon ishlagani bo‘yicha manbalar farq qiladi.',
+    src: ['rhp'] },
+  { d: '1889-05-26', phase: 'Ochilish', title: 'Liftlar ishga tushdi',
+    text: 'Sharq va g‘arb oyoqlarida Roux, Combaluzier et Lepape, shimol va janub oyoqlarida Otis (2-qavatgacha), 2-qavatdan cho‘qqigacha Edoux liftlari.',
+    method: 'Gidravlik liftlar; ular o‘rmalovchi kranlar chiqqan relslarda yuradi.',
+    note: 'Rasmiy saytga ko‘ra, liftlar deyarli ochilishdan boshlab ishlagan.',
+    src: ['rhp', 'teLifts'] },
+].map(m => ({ ...m, t: D(m.d) }));
+
+/* Archive photographs from Wikimedia Commons (public domain / CC0). Feau shot the tower from one
+   fixed point on the Champ-de-Mars; his dates are handwritten under each print. h = height measured
+   on the print, using the 1st-2nd floor gap as the scale (about +-10 m). */
+const C = 'https://commons.wikimedia.org/wiki/File:';
+const FEAU = n => `${C}Construction_de_la_tour_Eiffel_pour_l%27Exposition_universelle_de_1889._Vue_du_Champs-de-Mars_photographi%C3%A9_depuis_l%27une_de,_PH9114-${n}.jpg`;
+const WHO = {
+  feau: 'Théophile Féau · Champ-de-Mars tomondan',
+  durandelle: 'Louis-Émile Durandelle',
+  blancard: 'Hippolyte Blancard · Sena tomondan',
+  unknown: 'Muallif noma’lum',
+};
+const PHOTOS = [
+  { d: '1887-04-15', month: true, who: 'durandelle', title: 'Sena tomondagi oyoq uchun kessonlar', page: `${C}Louis-%C3%89mile_Durandelle,_Placement_of_the_Caissons,_Eiffel_Tower,_Paris,_April_1887.jpg` },
+  { d: '1887-08-10', who: 'feau', title: 'Oyoqlarning birinchi seksiyalari', page: `${C}Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._PH9114-1.jpg` },
+  { d: '1887-09-09', who: 'feau', title: 'Oyoqlar ko‘tarilmoqda', page: `${C}Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._PH9114-1.jpg` },
+  { d: '1887-12-07', who: 'unknown', title: 'Oyoqlar yog‘och havozalar ustida', page: `${C}Eiffelturm_1887.jpg` },
+  { d: '1887-12-12', who: 'feau', title: 'Oyoqlar havozalar ustida', page: FEAU(5) },
+  { d: '1888-02-10', who: 'blancard', title: 'Oyoqlar 1-qavatga yaqinlashmoqda', page: `${C}Vue_de_la_tour_Eiffel_en_construction_le_10_f%C3%A9vrier_1888_en_vue_de_l%27Exposition_universelle_de_1889,_7%C3%A8me_arrondissement,_PH73441.jpg` },
+  { d: '1888-03-15', who: 'feau', title: '1-qavat to‘sinlari tutashmoqda', h: 57, page: FEAU(5) },
+  { d: '1888-06-14', who: 'feau', title: 'Oyoqlar 1-qavatdan yuqorida', h: 95, page: FEAU(9) },
+  { d: '1888-07-10', who: 'feau', title: '2-qavat to‘sinlari yig‘ilmoqda', h: 107, page: FEAU(9) },
+  { d: '1888-08-14', who: 'feau', title: '2-qavat tayyor', h: 116, page: `${C}Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._14_septembre_1888,_PH9114-12.jpg` },
+  { d: '1888-09-14', who: 'feau', title: 'Yuqori ustun boshlandi', h: 133, page: `${C}Construction_de_la_tour_Eiffel,_7%C3%A8me_arrondissement,_Paris._14_septembre_1888,_PH9114-12.jpg` },
+  { d: '1888-10-14', who: 'feau', title: 'Yuqori ustun ko‘tarilmoqda', h: 152, page: FEAU(13) },
+  { d: '1888-11-14', who: 'feau', title: 'Yuqori ustun ko‘tarilmoqda', h: 179, page: FEAU(13) },
+  { d: '1888-11-23', who: 'durandelle', title: 'Qurilish holati, yaqindan', page: `${C}Louis-Emile_Durandelle,_The_Eiffel_Tower_-_State_of_the_Construction,_1888.jpg` },
+  { d: '1888-12-26', who: 'feau', title: 'Yuqori ustun ko‘tarilmoqda', h: 217, page: FEAU(16) },
+  { d: '1889-01-20', who: 'feau', title: 'Yuqori ustun ko‘tarilmoqda', h: 252, page: FEAU(16) },
+  { d: '1889-02-12', who: 'feau', title: '3-qavat sathiga yaqin', h: 280, page: FEAU(17) },
+  { d: '1889-03-12', who: 'feau', title: 'Cho‘qqi mayog‘i yig‘ilmoqda', h: 296, page: FEAU(17) },
+  { d: '1889-03-15', who: 'unknown', title: 'Cho‘qqi minorachasi montaji', page: `${C}Construction_tour_eiffel7.JPG` },
+  { d: '1889-03-31', who: 'feau', title: 'Qurilish tugagan kun', h: 300, page: FEAU(19) },
+].map(p => ({ ...p, t: D(p.d), file: `photos/${p.d}.jpg` }));
+
+/* Height of the structure vs. date (metres). From March 1888 the points are measured on Feau's prints;
+   earlier points marked estimate in MILESTONES are model assumptions. */
+const HEIGHT_KEYS = [
+  ['1887-01-26', 0], ['1887-07-01', 0], ['1887-12-12', 30], ['1888-03-15', 57], ['1888-03-20', 57.6],
+  ['1888-05-15', 62], ['1888-06-14', 95], ['1888-07-10', 107], ['1888-08-14', 115], ['1888-09-14', 133],
+  ['1888-10-14', 152], ['1888-11-14', 179], ['1888-12-26', 217], ['1889-01-20', 252], ['1889-02-12', 280],
+  ['1889-03-12', 296], ['1889-03-30', 300],
+].map(([d, h]) => [D(d), h]);
+function heightAt(t) {
+  if (t <= HEIGHT_KEYS[0][0]) return 0;
+  for (let i = 1; i < HEIGHT_KEYS.length; i++) {
+    const [ta, ha] = HEIGHT_KEYS[i - 1], [tb, hb] = HEIGHT_KEYS[i];
+    if (t <= tb) return ha + (hb - ha) * (t - ta) / (tb - ta);
+  }
+  return 300;
+}
+
+/* ---------- geometry model (metres) ---------- */
+const L1 = 57.6, L2 = 115, L3 = 276, TOP = 300, POLE = 312;
+// Half-width of the tower: 62.5 m at the base (125 m square), roughly exponential taper.
+const hw = y => 62.5 * Math.exp(-0.0099 * y);
+// Leg width as a share of the half-width: 25 m legs at the base, merging into one shaft at the 2nd floor.
+const legRatio = y => y <= L1 ? 0.40 + 0.08 * (y / L1) : 0.48 + 0.52 * Math.pow(clamp01((y - L1) / (L2 - L1)), 1.6);
+const LEGS = [[1, 1], [-1, 1], [-1, -1], [1, -1]];
+function legCorners(y, sx, sz) {
+  const h = hw(y), i = h * (1 - legRatio(y));
+  return [[sx * h, y, sz * h], [sx * h, y, sz * i], [sx * i, y, sz * i], [sx * i, y, sz * h]];
+}
+function shaftCorners(y) { const h = hw(y); return [[h, y, h], [h, y, -h], [-h, y, -h], [-h, y, h]]; }
+
+/* ---------- renderer / scene ---------- */
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let compareOn = false; // camera parked at Feau's viewpoint, photo card enlarged
+const stage = document.getElementById('stage');
+const canvas = document.getElementById('scene');
+const dossier = document.getElementById('dossier');
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.localClippingEnabled = true;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0xffffff, 800, 2400);
+const camera = new THREE.PerspectiveCamera(36, 1, 1, 5000);
+camera.position.set(410, 185, 510);
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 142, 0);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minDistance = 50;
+controls.maxDistance = 1200;
+controls.maxPolarAngle = Math.PI * 0.495;
+controls.autoRotateSpeed = 0.5;
+
+const clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0); // keeps y <= constant
+const M = {
+  iron: new THREE.MeshStandardMaterial({ roughness: 0.72, metalness: 0.18, clippingPlanes: [clip], clipShadows: true }),
+  deck: new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0.1, clippingPlanes: [clip], clipShadows: true }),
+  lattice: new THREE.LineBasicMaterial({ transparent: true, opacity: 0.92, clippingPlanes: [clip] }),
+  ironFree: new THREE.MeshStandardMaterial({ roughness: 0.72, metalness: 0.18 }),
+  stone: new THREE.MeshStandardMaterial({ roughness: 0.95 }),
+  pit: new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+  wood: new THREE.LineBasicMaterial({ transparent: true, opacity: 0 }),
+  woodCap: new THREE.MeshStandardMaterial({ roughness: 0.9, transparent: true, opacity: 0 }),
+  crane: new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0.3 }),
+  ground: new THREE.MeshStandardMaterial({ roughness: 1 }),
+  grid: new THREE.LineBasicMaterial({ transparent: true, opacity: 0.55 }),
+  water: new THREE.MeshStandardMaterial({ roughness: 0.35, metalness: 0.05 }),
+  ruler: new THREE.LineBasicMaterial({ transparent: true, opacity: 0.8 }),
+  leader: new THREE.LineDashedMaterial({ dashSize: 2.5, gapSize: 2.5, transparent: true, opacity: 0.6 }),
+  spark: new THREE.PointsMaterial({ size: 2.4, sizeAttenuation: true, transparent: true, opacity: 0.95, depthWrite: false }),
+};
+
+const hemi = new THREE.HemisphereLight(0xffffff, 0x888888, 1.7);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffffff, 2.3);
+sun.position.set(-200, 340, 180);
+sun.target.position.set(0, 90, 0);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -210, right: 210, top: 230, bottom: -230, near: 10, far: 1000 });
+sun.shadow.bias = -0.0004;
+scene.add(sun, sun.target);
+
+/* ground, river, bridge, grid */
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), M.ground);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+const river = new THREE.Mesh(new THREE.PlaneGeometry(4000, 130), M.water);
+river.rotation.x = -Math.PI / 2;
+river.position.set(0, 0.06, -300);
+scene.add(river);
+const bridge = new THREE.Mesh(new THREE.BoxGeometry(22, 2.5, 160), M.stone); // Pont d'Iena, on the tower axis
+bridge.position.set(0, 1.6, -300);
+bridge.castShadow = bridge.receiveShadow = true;
+scene.add(bridge);
+{
+  const g = [];
+  for (let v = -320; v <= 320; v += 20) { g.push(v, 0.04, -230, v, 0.04, 320); g.push(-320, 0.04, v < -230 ? -230 : v, 320, 0.04, v < -230 ? -230 : v); }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(g, 3));
+  scene.add(new THREE.LineSegments(geo, M.grid));
+}
+
+/* tower lattice + chords */
+const lat = [];
+const chords = [];
+const seg = (a, b) => lat.push(a[0], a[1], a[2], b[0], b[1], b[2]);
+const chordR = y => 1.0 - 0.75 * (y / TOP);
+function panel(A, Mid, B, ya) {
+  for (let c = 0; c < 4; c++) {
+    const n = (c + 1) % 4;
+    chords.push([...A[c], ...B[c], chordR(ya)]);
+    seg(A[c], A[n]); seg(Mid[c], Mid[n]);
+    seg(A[c], Mid[n]); seg(A[n], Mid[c]); seg(Mid[c], B[n]); seg(Mid[n], B[c]);
+  }
+}
+const ys = [];
+const addRange = (a, b, n) => { for (let k = 0; k < n; k++) ys.push(a + (b - a) * k / n); };
+addRange(0, L1, 12); addRange(L1, L2, 11); addRange(L2, L3, 24); addRange(L3, TOP - 6, 3); ys.push(TOP - 6);
+for (let k = 0; k < ys.length - 1; k++) {
+  const ya = ys[k], yb = ys[k + 1], ym = (ya + yb) / 2;
+  if (yb <= L2 + 1e-6) for (const [sx, sz] of LEGS) panel(legCorners(ya, sx, sz), legCorners(ym, sx, sz), legCorners(yb, sx, sz), ya);
+  else panel(shaftCorners(ya), shaftCorners(ym), shaftCorners(yb), ya);
+}
+{ const T = shaftCorners(TOP - 6); for (let c = 0; c < 4; c++) seg(T[c], T[(c + 1) % 4]); }
+
+/* platform friezes: lattice bands around each floor */
+function frieze(S, y0, y1, step) {
+  const n = Math.max(4, Math.round((2 * S) / step));
+  for (let side = 0; side < 4; side++) {
+    const P = (u, y) => { const v = -S + 2 * S * u; return side === 0 ? [v, y, S] : side === 1 ? [S, y, -v] : side === 2 ? [-v, y, -S] : [-S, y, v]; };
+    seg(P(0, y0), P(1, y0)); seg(P(0, y1), P(1, y1));
+    for (let k = 0; k < n; k++) { const u0 = k / n, u1 = (k + 1) / n; seg(P(u0, y0), P(u1, y1)); seg(P(u0, y1), P(u1, y0)); seg(P(u0, y0), P(u0, y1)); }
+  }
+}
+frieze(38, L1 - 5.5, L1, 3.8);
+frieze(21.5, L2 - 3.2, L2, 3.2);
+frieze(7.6, L3, L3 + 3.6, 1.9);
+
+/* the four decorative arches between the legs, drawn in the plane of each facade */
+function sidePt(side, u, y, z) { return side === 0 ? [u, y, z] : side === 1 ? [z, y, -u] : side === 2 ? [-u, y, -z] : [-z, y, u]; }
+function archPts(apex, spring, side, n = 48) {
+  const a = hw(spring) * (1 - legRatio(spring));
+  const s = apex - spring, R = (a * a + s * s) / (2 * s), yc = apex - R;
+  const t0 = Math.asin((R - s) / R);
+  const pts = [];
+  for (let k = 0; k <= n; k++) {
+    const th = t0 + (Math.PI - 2 * t0) * k / n;
+    const x = R * Math.cos(th), y = yc + R * Math.sin(th);
+    pts.push(sidePt(side, x, y, hw(y) + 0.3));
+  }
+  return pts;
+}
+const archGroup = new THREE.Group();
+for (let side = 0; side < 4; side++) {
+  const outer = archPts(51, 14, side), inner = archPts(48.2, 14, side);
+  for (const [pts, r] of [[outer, 0.6], [inner, 0.35]]) {
+    const curve = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)));
+    const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 72, r, 6, false), M.iron);
+    m.castShadow = true;
+    archGroup.add(m);
+  }
+  for (let k = 0; k < outer.length - 1; k += 2) { seg(outer[k], inner[k + 1]); seg(inner[k + 1], outer[k + 2]); }
+}
+scene.add(archGroup);
+
+const latGeo = new THREE.BufferGeometry();
+latGeo.setAttribute('position', new THREE.Float32BufferAttribute(lat, 3));
+scene.add(new THREE.LineSegments(latGeo, M.lattice));
+
+{
+  const cyl = new THREE.CylinderGeometry(1, 1, 1, 6, 1, false);
+  cyl.translate(0, 0.5, 0);
+  const mesh = new THREE.InstancedMesh(cyl, M.iron, chords.length);
+  const up = new THREE.Vector3(0, 1, 0), va = new THREE.Vector3(), vb = new THREE.Vector3(), dir = new THREE.Vector3();
+  const q = new THREE.Quaternion(), sc = new THREE.Vector3(), m4 = new THREE.Matrix4();
+  chords.forEach((c, i) => {
+    va.set(c[0], c[1], c[2]); vb.set(c[3], c[4], c[5]);
+    dir.subVectors(vb, va);
+    const len = dir.length();
+    q.setFromUnitVectors(up, dir.normalize());
+    sc.set(c[6], len, c[6]);
+    m4.compose(va, q, sc);
+    mesh.setMatrixAt(i, m4);
+  });
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+}
+
+/* floor decks, lantern, flag */
+function slab(w, t, d, x, y, z, mat = M.deck) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, t, d), mat);
+  m.position.set(x, y, z);
+  m.castShadow = m.receiveShadow = true;
+  scene.add(m);
+  return m;
+}
+function ring(y, t, outer, inner) {
+  const w = outer - inner;
+  slab(2 * outer, t, w, 0, y, outer - w / 2); slab(2 * outer, t, w, 0, y, -(outer - w / 2));
+  slab(w, t, 2 * inner, outer - w / 2, y, 0); slab(w, t, 2 * inner, -(outer - w / 2), y, 0);
+}
+ring(L1 - 0.8, 1.6, 38, 17);
+ring(L2 - 0.7, 1.4, 21.5, 7);
+slab(18, 1, 18, 0, L3 - 0.5, 0);
+slab(15.4, 0.6, 15.4, 0, L3 + 3.9, 0);
+{
+  const lantern = new THREE.Mesh(new THREE.CylinderGeometry(2.3, 3.1, 6, 12), M.iron);
+  lantern.position.y = TOP - 3;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(2.3, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2), M.iron);
+  dome.position.y = TOP;
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, POLE - TOP, 6), M.iron);
+  pole.position.y = (TOP + POLE) / 2;
+  lantern.castShadow = dome.castShadow = true;
+  scene.add(lantern, dome, pole);
+}
+const flag = (() => {
+  const c = document.createElement('canvas');
+  c.width = 96; c.height = 64;
+  const x = c.getContext('2d');
+  [['#0055A4', 0], ['#FFFFFF', 32], ['#EF4135', 64]].forEach(([col, px]) => { x.fillStyle = col; x.fillRect(px, 0, 32, 64); });
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const geo = new THREE.PlaneGeometry(5.4, 3.6);
+  geo.translate(2.7, 0, 0);
+  const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
+  m.position.set(0.15, POLE - 2, 0);
+  m.visible = false;
+  scene.add(m);
+  return m;
+})();
+
+/* foundations: 16 masonry piers, one under each chord of each leg */
+const piers = [], pits = [];
+{
+  const pierGeo = new THREE.BoxGeometry(8, 3, 8);
+  pierGeo.translate(0, 1.5, 0);
+  const pitGeo = new THREE.PlaneGeometry(12, 12);
+  pitGeo.rotateX(-Math.PI / 2);
+  for (const [sx, sz] of LEGS) for (const c of legCorners(0, sx, sz)) {
+    const p = new THREE.Mesh(pierGeo, M.stone);
+    p.position.set(c[0], 0, c[2]);
+    p.castShadow = p.receiveShadow = true;
+    piers.push(p); scene.add(p);
+    const q = new THREE.Mesh(pitGeo, M.pit);
+    q.position.set(c[0], 0.08, c[2]);
+    pits.push(q); scene.add(q);
+  }
+}
+
+/* wooden scaffolding: 12 towers of 30 m and 4 of 45 m under the inclined legs */
+const scaffold = new THREE.Group();
+{
+  const w = [];
+  const wseg = (a, b) => w.push(a[0], a[1], a[2], b[0], b[1], b[2]);
+  const C = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
+  const capGeo = new THREE.BoxGeometry(1, 0.6, 1);
+  function tower(cx, cz, width, H) {
+    const h2 = width / 2, P = (a, y) => [cx + a[0] * h2, y, cz + a[1] * h2];
+    const n = Math.round(H / 5);
+    for (let k = 0; k < n; k++) {
+      const y0 = H * k / n, y1 = H * (k + 1) / n;
+      for (let c = 0; c < 4; c++) { const a = C[c], b = C[(c + 1) % 4]; wseg(P(a, y0), P(a, y1)); wseg(P(a, y0), P(b, y0)); wseg(P(a, y0), P(b, y1)); }
+    }
+    for (let c = 0; c < 4; c++) wseg(P(C[c], H), P(C[(c + 1) % 4], H));
+    const cap = new THREE.Mesh(capGeo, M.woodCap);
+    cap.scale.set(width + 1, 1, width + 1);
+    cap.position.set(cx, H, cz);
+    scaffold.add(cap);
+  }
+  for (const [sx, sz] of LEGS) {
+    const c28 = legCorners(28, sx, sz);
+    for (const i of [1, 2, 3]) tower(c28[i][0], c28[i][2], 4, 27);
+    const c45 = legCorners(46, sx, sz)[2];
+    tower(c45[0] - sx * 1.5, c45[2] - sz * 1.5, 6, 45);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(w, 3));
+  scaffold.add(new THREE.LineSegments(geo, M.wood));
+  scene.add(scaffold);
+}
+
+/* creeper cranes riding up with the work front */
+function makeCrane() {
+  const g = new THREE.Group();
+  const mast = new THREE.Mesh(new THREE.BoxGeometry(0.8, 9, 0.8), M.crane);
+  mast.position.y = 4.5;
+  const jib = new THREE.Group();
+  jib.position.y = 9;
+  const arm = new THREE.Mesh(new THREE.BoxGeometry(15, 0.6, 0.6), M.crane);
+  arm.position.x = 5;
+  const counter = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 1.4), M.crane);
+  counter.position.x = -3;
+  const cable = new THREE.Mesh(new THREE.BoxGeometry(0.08, 6, 0.08), M.crane);
+  cable.position.set(11.8, -3, 0);
+  const load = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.6, 0.6), M.ironFree);
+  load.position.set(11.8, -6.2, 0);
+  jib.add(arm, counter, cable, load);
+  g.add(mast, jib);
+  g.userData.jib = jib;
+  g.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  scene.add(g);
+  return g;
+}
+const cranes = [makeCrane(), makeCrane(), makeCrane(), makeCrane()];
+
+/* hot-rivet sparks at the work front */
+const SPARKS = 220;
+const sparkPos = new Float32Array(SPARKS * 3);
+const sparkLife = new Float32Array(SPARKS);
+const sparkGeo = new THREE.BufferGeometry();
+sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
+const sparks = new THREE.Points(sparkGeo, M.spark);
+sparks.frustumCulled = false;
+scene.add(sparks);
+function frontPoints(H) {
+  if (H < L2) { const pts = []; for (const [sx, sz] of LEGS) for (const c of legCorners(H, sx, sz)) pts.push([c[0], c[2]]); return pts; }
+  const h = hw(H);
+  return [[h, h], [h, -h], [-h, -h], [-h, h], [h, 0], [-h, 0], [0, h], [0, -h]];
+}
+function respawn(i, H, pts) {
+  const p = pts[(Math.random() * pts.length) | 0];
+  sparkPos[i * 3] = p[0] + (Math.random() - 0.5) * 2.4;
+  sparkPos[i * 3 + 1] = H - Math.random() * 2.5;
+  sparkPos[i * 3 + 2] = p[1] + (Math.random() - 0.5) * 2.4;
+  sparkLife[i] = 0.25 + Math.random() * 0.9;
+}
+
+/* height ruler with dashed leaders to the floors */
+// Two rulers: one reads on the right of the default view, the other on the right of Feau's view.
+const RULERS = { def: [112, -112], feau: [-112, -112] };
+const LEVELS = [
+  { y: L1, k: '1-qavat', v: '57,6 m' }, { y: L2, k: '2-qavat', v: '115 m' },
+  { y: L3, k: '3-qavat', v: '276 m' }, { y: TOP, k: 'Cho‘qqi', v: '300 m' },
+];
+function buildRuler([RX, RZ]) {
+  const grp = new THREE.Group();
+  const r = [RX, 0, RZ, RX, POLE, RZ];
+  for (let y = 0; y <= 300; y += 25) r.push(RX - 2, y, RZ, RX + 2, y, RZ);
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(r, 3));
+  grp.add(new THREE.LineSegments(g, M.ruler));
+  const l = [];
+  const sx = Math.sign(RX), sz = Math.sign(RZ);
+  for (const lv of LEVELS) { const h = hw(lv.y); l.push(RX, lv.y, RZ, sx * (h + 1), lv.y, sz * (h + 1)); }
+  const lg = new THREE.BufferGeometry();
+  lg.setAttribute('position', new THREE.Float32BufferAttribute(l, 3));
+  const leaders = new THREE.LineSegments(lg, M.leader);
+  leaders.computeLineDistances();
+  grp.add(leaders);
+  scene.add(grp);
+  return grp;
+}
+const rulerDef = buildRuler(RULERS.def), rulerFeau = buildRuler(RULERS.feau);
+rulerFeau.visible = false;
+const tagsEl = document.getElementById('tags');
+for (const lv of LEVELS) {
+  const el = document.createElement('div');
+  el.className = 'tag';
+  el.innerHTML = `<b>${lv.k}</b><span>${lv.v}</span>`;
+  tagsEl.appendChild(el);
+  lv.el = el;
+}
+
+/* ---------- theme ---------- */
+function applyTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = n => cs.getPropertyValue(n).trim();
+  const bg = new THREE.Color(v('--bg'));
+  scene.background = bg;
+  scene.fog.color.copy(bg);
+  M.iron.color.set(v('--iron')); M.ironFree.color.set(v('--iron'));
+  M.lattice.color.set(v('--iron'));
+  M.deck.color.set(v('--iron-deck'));
+  M.stone.color.set(v('--stone'));
+  M.pit.color.set(v('--pit'));
+  M.wood.color.set(v('--wood')); M.woodCap.color.set(v('--wood'));
+  M.crane.color.set(v('--crane'));
+  M.ground.color.set(v('--ground'));
+  M.grid.color.set(v('--grid'));
+  M.water.color.set(v('--water'));
+  M.ruler.color.set(v('--muted')); M.leader.color.set(v('--muted'));
+  M.spark.color.set(v('--spark'));
+  hemi.color.set(v('--sky'));
+  hemi.groundColor.set(v('--ground'));
+  const dark = (cs.getPropertyValue('color-scheme') || '').includes('dark');
+  M.spark.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
+  M.spark.needsUpdate = true;
+  hemi.intensity = dark ? 1.1 : 1.7;
+  sun.intensity = dark ? 1.5 : 2.3;
+}
+applyTheme();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+/* ---------- layout ---------- */
+const wideMQ = matchMedia('(min-width: 761px)');
+function layout() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  const panel = compareOn ? document.getElementById('plate') : dossier;
+  if (wideMQ.matches) camera.setViewOffset(w, h, Math.min((panel.offsetWidth + 24) / 2, w * 0.22), 34, w, h);
+  else camera.clearViewOffset();
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(layout).observe(canvas);
+layout();
+
+/* ---------- UI ---------- */
+const $ = id => document.getElementById(id);
+const dateEl = $('date'), hEl = $('hgt'), flagNoteEl = $('flagnote'), workEl = $('workday');
+const scrub = $('scrub'), playBtn = $('play'), playLabel = $('play-label');
+scrub.max = String(TOTAL_DAYS);
+
+const ticksEl = $('ticks');
+MILESTONES.forEach((m, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'tick';
+  b.style.left = `${(100 * (m.t - START)) / (END - START)}%`;
+  const when = m.month ? fmtMonth(m.t) : fmtDay(m.t);
+  b.title = `${when}: ${m.title}`;
+  b.setAttribute('aria-label', `${when}: ${m.title}`);
+  b.addEventListener('click', () => { setPlaying(false); t = m.t; });
+  ticksEl.appendChild(b);
+  m.btn = b;
+});
+const yearsEl = $('years');
+[['1887', START], ['1888', D('1888-01-01')], ['1889', D('1889-01-01')]].forEach(([y, ms]) => {
+  const s = document.createElement('span');
+  s.textContent = y;
+  s.style.left = `${(100 * (ms - START)) / (END - START)}%`;
+  yearsEl.appendChild(s);
+});
+
+/* archive photo card, photo ticks, lightbox */
+const fmtPhoto = p => (p.month ? fmtMonth(p.t) : fmtDay(p.t));
+const pticksEl = $('pticks');
+PHOTOS.forEach(p => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'ptick';
+  b.style.left = `${(100 * (p.t - START)) / (END - START)}%`;
+  b.title = `Surat: ${fmtPhoto(p)}`;
+  b.setAttribute('aria-label', `Arxiv surati, ${fmtPhoto(p)}: ${p.title}`);
+  b.addEventListener('click', () => { setPlaying(false); t = p.t; });
+  pticksEl.appendChild(b);
+  p.btn = b;
+});
+const plateImg = $('plate-img'), plateJump = $('plate-jump');
+let shownPhoto = -1;
+// In compare mode only Feau's prints share the camera's viewpoint, so the card sticks to them.
+function photoIndex(t) {
+  let k = -1, first = -1;
+  PHOTOS.forEach((p, i) => {
+    if (compareOn && p.who !== 'feau') return;
+    if (first < 0) first = i;
+    if (p.t <= t) k = i;
+  });
+  return k < 0 ? first : k;
+}
+function renderPhoto(i) {
+  shownPhoto = i;
+  const p = PHOTOS[i];
+  plateImg.src = p.file;
+  plateImg.alt = `${fmtPhoto(p)}: ${p.title}`;
+  plateImg.removeAttribute('width'); plateImg.removeAttribute('height');
+  $('plate-date').textContent = fmtPhoto(p);
+  $('plate-title').textContent = p.title;
+  $('plate-who').textContent = WHO[p.who];
+  const pm = $('plate-measure');
+  pm.hidden = !p.h;
+  pm.textContent = p.h ? `Suratdan o‘lchov: ≈${p.h} m` : '';
+  $('plate-src').href = p.page;
+  PHOTOS.forEach((x, j) => x.btn.classList.toggle('on', j === i));
+  const next = PHOTOS[i + 1];
+  if (next) { const pre = new Image(); pre.src = next.file; }
+  fitPlate();
+}
+function updatePlateLag() {
+  const p = PHOTOS[shownPhoto];
+  const days = Math.round((t - p.t) / DAY);
+  $('plate-lag').textContent = days === 0 ? 'sahnadagi kun bilan bir xil' : days > 0 ? `sahnadagi kundan ${days} kun oldin olingan` : `sahnadagi kundan ${-days} kun keyin olingan`;
+  if (plateJump.hidden !== (days === 0)) { plateJump.hidden = days === 0; fitPlate(); }
+}
+plateJump.addEventListener('click', () => { setPlaying(false); t = PHOTOS[shownPhoto].t; });
+// On wide screens the card floats between the masthead and the timeline: size the image to the gap.
+const plateEl = $('plate'), railEl = document.querySelector('.rail');
+function fitPlate() {
+  if (!wideMQ.matches) { plateImg.style.maxHeight = ''; return; }
+  const cap = plateEl.querySelector('figcaption');
+  const avail = railEl.getBoundingClientRect().top - 12 - plateEl.getBoundingClientRect().top - cap.offsetHeight - 8 - 18;
+  plateImg.style.maxHeight = `${Math.max(80, Math.min(compareOn ? 720 : 330, Math.floor(avail)))}px`;
+}
+new ResizeObserver(fitPlate).observe(document.querySelector('.app'));
+const lightbox = $('lightbox');
+let lbReturn = null;
+function openLightbox() {
+  const p = PHOTOS[shownPhoto];
+  $('lb-img').src = p.file;
+  $('lb-img').alt = plateImg.alt;
+  $('lb-cap').textContent = `${fmtPhoto(p)} · ${p.title} · ${WHO[p.who]}${p.h ? ` · suratdan o‘lchov ≈${p.h} m` : ''}`;
+  lbReturn = document.activeElement;
+  lightbox.hidden = false;
+  $('lb-close').focus();
+}
+function closeLightbox() { lightbox.hidden = true; if (lbReturn) lbReturn.focus(); }
+$('plate-open').addEventListener('click', openLightbox);
+$('lb-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+let shown = -1;
+function milestoneIndex(t) { let k = 0; MILESTONES.forEach((m, i) => { if (m.t <= t) k = i; }); return k; }
+function renderMilestone(i) {
+  shown = i;
+  const m = MILESTONES[i];
+  $('m-phase').textContent = m.phase;
+  const chip = $('m-est');
+  chip.hidden = !(m.est || m.measured);
+  chip.textContent = m.measured ? 'suratdan o‘lchov' : 'taxmin';
+  $('m-title').textContent = m.title;
+  $('m-date').textContent = m.month ? fmtMonth(m.t) : fmtDay(m.t);
+  $('m-text').textContent = m.text;
+  $('m-method').textContent = m.method;
+  const note = $('m-note');
+  note.hidden = !m.note;
+  note.textContent = m.note ? `Manbalar farqi: ${m.note}` : '';
+  const src = $('m-src');
+  src.replaceChildren(...m.src.map(k => {
+    const a = document.createElement('a');
+    a.href = SRC[k][1]; a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = SRC[k][0];
+    return a;
+  }));
+  MILESTONES.forEach((x, j) => x.btn.classList.toggle('on', j === i));
+}
+
+let t = D('1888-08-14');
+let playing = false;
+let lastDay = -1;
+function setPlaying(p) {
+  if (p && t >= END - DAY) t = START;
+  playing = p;
+  playBtn.setAttribute('aria-pressed', String(p));
+  playBtn.setAttribute('aria-label', p ? 'Pauza' : 'Ijro etish');
+  playLabel.textContent = p ? 'Pauza' : 'Ijro';
+  controls.autoRotate = p && !reduceMotion && !compareOn;
+}
+
+/* camera views: default overview and Feau's viewpoint */
+const VIEW_DEFAULT = { pos: new THREE.Vector3(410, 185, 510), target: new THREE.Vector3(0, 142, 0) };
+// Feau shot from one of the towers of the old Trocadero palace (Musee Carnavalet record): across the
+// Seine on the Iena bridge axis, roughly 680 m from the tower and 100 m above its base.
+const VIEW_FEAU = { pos: new THREE.Vector3(-30, 100, -680), target: new THREE.Vector3(0, 140, 0) };
+let camAnim = null;
+function flyTo(v) {
+  camAnim = { t0: performance.now(), dur: reduceMotion ? 1 : 1200, p0: camera.position.clone(), q0: controls.target.clone(), p1: v.pos, q1: v.target };
+  controls.enabled = false;
+}
+function stepCam(now) {
+  if (!camAnim) return;
+  const u = clamp01((now - camAnim.t0) / camAnim.dur);
+  const e = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  camera.position.lerpVectors(camAnim.p0, camAnim.p1, e);
+  controls.target.lerpVectors(camAnim.q0, camAnim.q1, e);
+  if (u >= 1) { camAnim = null; controls.enabled = true; }
+}
+const feauBtn = $('feau-view');
+function setCompare(on, fly = true) {
+  compareOn = on;
+  feauBtn.setAttribute('aria-pressed', String(on));
+  document.querySelector('.app').classList.toggle('compare', on);
+  controls.autoRotate = playing && !reduceMotion && !on;
+  if (fly) flyTo(on ? VIEW_FEAU : VIEW_DEFAULT);
+  shownPhoto = -1;
+  lastDay = -1;
+  layout();
+}
+feauBtn.addEventListener('click', () => setCompare(!compareOn));
+
+/* Photo laid over the model. Each Feau print was registered to the 31 March 1889 print on the static
+   background (SIFT + RANSAC, ECC for the hazy 1887 prints): CSS matrix, print px -> reference px. */
+const REG = {
+  '1887-08-10': [0.95811, 0.00028, 0.04801, 0.92368, 124.21, 43.8],
+  '1887-09-09': [0.94466, 0.01456, 0.02872, 0.91748, 144.06, 49.8],
+  '1887-12-12': [0.93847, 0.00781, 0.05222, 0.93666, 127.36, 33.27],
+  '1888-03-15': [0.93674, 0.00652, -0.00652, 0.93674, 170.91, 34.06],
+  '1888-06-14': [0.94202, 0.00645, -0.00645, 0.94202, 159.59, 20.57],
+  '1888-07-10': [0.92445, 0.00567, -0.00567, 0.92445, 162.51, 32.9],
+  '1888-08-14': [0.93429, 0.00804, -0.00804, 0.93429, 161.58, 32.4],
+  '1888-09-14': [0.94961, -0.00742, 0.00742, 0.94961, 152.99, 25.54],
+  '1888-10-14': [0.93285, -0.01031, 0.01031, 0.93285, 150.07, 34.47],
+  '1888-11-14': [0.92616, -0.00942, 0.00942, 0.92616, 152.77, 39.64],
+  '1888-12-26': [0.94692, -0.01297, 0.01297, 0.94692, 147.96, 31.74],
+  '1889-01-20': [0.95018, 0.0041, -0.0041, 0.95018, 161.56, 27.2],
+  '1889-02-12': [0.92549, 0.0015, -0.0015, 0.92549, 162.19, 36.22],
+  '1889-03-12': [0.93209, -0.00934, 0.00934, 0.93209, 152.44, 33.06],
+  '1889-03-31': [1, 0, 0, 1, 0, 0],
+};
+// Points read on the reference print (pixels of photos/1889-03-31.jpg) and the model points they show:
+// the tower axis and the near edge of each floor, plus the top of the lantern.
+const REF_PTS = [
+  { u: 304.5, v: 573, p: [0, L1, -38] },
+  { u: 304.5, v: 468, p: [0, L2, -21.5] },
+  { u: 304.5, v: 199, p: [0, L3, -9] },
+  { u: 304.5, v: 159, p: [0, TOP, 0] },
+];
+const overlayEl = $('overlay'), ovWrap = $('ovwrap'), ovlInput = $('ovl');
+let overlayOpacity = 0.55;
+ovlInput.addEventListener('input', () => { overlayOpacity = Number(ovlInput.value) / 100; $('ovl-v').textContent = `${ovlInput.value}%`; });
+const vq = new THREE.Vector3();
+// Fit reference-print pixels to screen pixels (uniform scale + shift) from the projected model points.
+function refToScreen() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const pts = REF_PTS.map(r => {
+    vq.set(r.p[0], r.p[1], r.p[2]).project(camera);
+    return { u: r.u, v: r.v, X: canvas.offsetLeft + (vq.x * 0.5 + 0.5) * w, Y: canvas.offsetTop + (-vq.y * 0.5 + 0.5) * h };
+  });
+  const n = pts.length, mean = k => pts.reduce((s, p) => s + p[k], 0) / n;
+  const ub = mean('u'), vb = mean('v'), Xb = mean('X'), Yb = mean('Y');
+  let num = 0, den = 0;
+  for (const p of pts) { num += (p.u - ub) * (p.X - Xb) + (p.v - vb) * (p.Y - Yb); den += (p.u - ub) ** 2 + (p.v - vb) ** 2; }
+  const s = num / den, tx = Xb - s * ub, ty = Yb - s * vb;
+  const res = pts.map(p => Math.hypot(s * p.u + tx - p.X, s * p.v + ty - p.Y));
+  return { s, tx, ty, res };
+}
+function placeOverlay() {
+  const p = PHOTOS[shownPhoto];
+  const m = p && REG[p.d];
+  const show = compareOn && !camAnim && overlayOpacity > 0 && !!m;
+  if (ovWrap.hidden === show) ovWrap.hidden = !show;
+  if (!show) return;
+  if (overlayEl.dataset.src !== p.file) { overlayEl.src = p.file; overlayEl.dataset.src = p.file; }
+  // the wrapper sits exactly over the canvas, so the print never spills over the masthead
+  const ox = canvas.offsetLeft, oy = canvas.offsetTop;
+  Object.assign(ovWrap.style, { left: `${ox}px`, top: `${oy}px`, width: `${canvas.clientWidth}px`, height: `${canvas.clientHeight}px` });
+  const { s, tx, ty } = refToScreen();
+  const [a, b, c, d, e, f] = m;
+  overlayEl.style.transform = `matrix(${s * a}, ${s * b}, ${s * c}, ${s * d}, ${s * e + tx - ox}, ${s * f + ty - oy})`;
+  ovWrap.style.opacity = String(overlayOpacity);
+}
+// Dragging the view away from Feau's point ends the comparison but keeps the camera where the user put it.
+controls.addEventListener('start', () => { if (compareOn && !camAnim) setCompare(false, false); });
+playBtn.addEventListener('click', () => setPlaying(!playing));
+scrub.addEventListener('input', () => { setPlaying(false); t = START + Number(scrub.value) * DAY; });
+document.addEventListener('keydown', e => {
+  if (!lightbox.hidden) { if (e.key === 'Escape') closeLightbox(); return; }
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (e.key === ' ' && tag !== 'button' && tag !== 'input' && tag !== 'summary') { e.preventDefault(); setPlaying(!playing); }
+  if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); setCompare(!compareOn); }
+  if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && tag !== 'input') {
+    e.preventDefault();
+    setPlaying(false);
+    const i = milestoneIndex(t);
+    const j = e.key === 'ArrowRight' ? Math.min(MILESTONES.length - 1, MILESTONES[i].t < t ? i + 1 : i + 1) : (MILESTONES[i].t < t ? i : Math.max(0, i - 1));
+    t = MILESTONES[j].t;
+  }
+});
+
+function updateUI(H) {
+  const day = Math.floor((t - START) / DAY);
+  if (day === lastDay) return;
+  lastDay = day;
+  dateEl.textContent = fmtDay(t);
+  dateEl.dateTime = new Date(t).toISOString().slice(0, 10);
+  const done = t >= DONE;
+  hEl.textContent = done ? '300' : String(Math.round(H));
+  flagNoteEl.textContent = done ? '(bayroq bilan ≈312)' : '';
+  workEl.textContent = !done ? `ish kuni ${day + 1}` : t < D('1889-05-15') ? 'qurilish tugagan' : 'minora ochiq';
+  scrub.value = String(day);
+  const i = milestoneIndex(t);
+  if (i !== shown) renderMilestone(i);
+  const pi = photoIndex(t);
+  if (pi !== shownPhoto) renderPhoto(pi);
+  updatePlateLag();
+}
+
+/* ---------- per-frame state ---------- */
+const v3 = new THREE.Vector3();
+let lastH = -1;
+function applyTime(dt, time) {
+  const H = heightAt(t);
+  const done = t >= DONE;
+  clip.constant = done ? 1000 : H;
+
+  const fp = clamp01((t - START) / (FOUND_END - START));
+  M.pit.opacity = 0.85 * smooth(0, 0.2, fp) * (1 - smooth(0.85, 1, fp));
+  const ps = smooth(0.2, 1, fp);
+  for (const p of piers) { p.visible = ps > 0.002; p.scale.y = Math.max(0.002, ps); }
+
+  const sa = smooth(10, 20, H) * (1 - smooth(SCAFF_OFF_A, SCAFF_OFF_B, t));
+  M.wood.opacity = sa; M.woodCap.opacity = sa;
+  scaffold.visible = sa > 0.01;
+
+  const building = t >= METAL_START && !done && H > 0.2;
+  cranes.forEach((c, i) => {
+    let show = building, x = 0, z = 0;
+    if (H < L2) {
+      const [sx, sz] = LEGS[i];
+      const k = legCorners(H, sx, sz);
+      x = (k[0][0] + k[2][0]) / 2; z = (k[0][2] + k[2][2]) / 2;
+    } else {
+      show = building && i % 2 === 0;
+      const h = hw(H) * 0.35;
+      x = i === 0 ? h : -h; z = i === 0 ? h : -h;
+    }
+    c.visible = show;
+    c.position.set(x, Math.max(0, H - 9), z);
+    c.userData.jib.rotation.y = reduceMotion ? i * 1.7 : time * 0.28 + i * 1.7;
+  });
+
+  sparks.visible = building;
+  if (building) {
+    const pts = frontPoints(H);
+    const jump = Math.abs(H - lastH) > 2.5;
+    for (let i = 0; i < SPARKS; i++) {
+      sparkLife[i] -= dt;
+      if (jump || sparkLife[i] <= 0) respawn(i, H, pts);
+      else if (!reduceMotion) sparkPos[i * 3 + 1] -= dt * 7;
+    }
+    sparkGeo.attributes.position.needsUpdate = true;
+  }
+  lastH = H;
+
+  flag.visible = done;
+  if (done && !reduceMotion) flag.rotation.y = Math.sin(time * 1.4) * 0.22;
+
+  for (const lv of LEVELS) lv.reached = done || H >= lv.y - 0.05;
+  updateUI(H);
+}
+
+function placeTags() {
+  const w = canvas.clientWidth, h = canvas.clientHeight, ox = canvas.offsetLeft, oy = canvas.offsetTop;
+  const [RX, RZ] = compareOn ? RULERS.feau : RULERS.def;
+  rulerDef.visible = !compareOn;
+  rulerFeau.visible = compareOn;
+  for (const lv of LEVELS) {
+    v3.set(RX, lv.y, RZ).project(camera);
+    const vis = v3.z < 1 && v3.x > -1.2 && v3.x < 1.2 && v3.y > -1.2 && v3.y < 1.2;
+    lv.el.style.display = vis ? '' : 'none';
+    if (!vis) continue;
+    const px = (v3.x * 0.5 + 0.5) * w;
+    lv.el.style.left = `${ox + px}px`;
+    lv.el.style.top = `${oy + (-v3.y * 0.5 + 0.5) * h}px`;
+    lv.el.classList.toggle('flip', px + lv.el.offsetWidth + 16 > w);
+    lv.el.classList.toggle('reached', !!lv.reached);
+  }
+}
+
+const SPEED = 21; // days per second of playback
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  if (playing) {
+    t += dt * SPEED * DAY;
+    if (t >= END) { t = END; setPlaying(false); }
+  }
+  applyTime(dt, now / 1000);
+  stepCam(now);
+  controls.update();
+  renderer.render(scene, camera);
+  placeTags();
+  placeOverlay();
+  requestAnimationFrame(frame);
+}
+renderMilestone(milestoneIndex(t));
+requestAnimationFrame(frame);
+</script>

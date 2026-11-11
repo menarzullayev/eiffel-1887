@@ -1,0 +1,270 @@
+{
+  "milestones": [
+    {
+      "date": "1887-01-26",
+      "date_precision": "day",
+      "height_m": 0,
+      "event": "Start of works: digging of the foundations begins.",
+      "method": "Masonry/concrete foundations for the four piers.",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Google Arts & Culture gives 26 Jan 1887. A search snippet attributes 28 Jan 1887 to Structurae and another source to 28 Jan as the first foundation work; the Structurae page returned HTTP 403 and could not be read, so the 28 Jan value is unverified. The official toureiffel.paris pages also returned 403."
+    },
+    {
+      "date": "1887-05",
+      "date_precision": "month",
+      "height_m": 0,
+      "event": "Foundations finished (estimate). Google Arts says foundations were laid in four months; rarehistoricalphotos and a toureiffel.paris snippet say five months. Caisson photo of May 1887 (Google Arts caption) and a Pierre Petit 1887 photo of a compressed-air metal caisson (Musee d'Orsay).",
+      "method": "Compressed-air caissons (sheet-metal boxes sunk under water) for the piers nearest the Seine; masonry piers elsewhere.",
+      "sources": [
+        "https://artsandculture.google.com/exhibit/AQIqOkVv",
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/",
+        "https://www.musee-orsay.fr/en/artworks/travaux-de-construction-de-la-tour-eiffel-caisson-metallique-air-comprime-larriere-plan-au-centre-le-trocadero-66017"
+      ],
+      "conflicts": "Foundation duration: four months (Google Arts) vs five months (rarehistoricalphotos; toureiffel.paris via search snippet). Depth of caissons (about 5 m under water) comes from a search snippet only, not from a fetched page."
+    },
+    {
+      "date": "1887-07-01",
+      "date_precision": "day",
+      "height_m": 0,
+      "event": "Start of metal assembly of the structure (first iron pieces erected on the piers).",
+      "method": "Prefabricated pieces (about 5 m sections, made at Levallois-Perret) bolted together, later riveted.",
+      "sources": [
+        "https://artsandculture.google.com/exhibit/AQIqOkVv",
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/"
+      ],
+      "conflicts": "rarehistoricalphotos gives 1 July 1887 for the assembly of supports but also 18 July 1887 as the start of erection of the metalwork. Google Arts says assembly was to end 21 months later; rarehistoricalphotos says 22 months."
+    },
+    {
+      "date": "1888-01",
+      "date_precision": "month",
+      "height_m": null,
+      "event": "Wooden scaffolding and small hoists fixed to the tower; first-floor assembly under way. No height is given for this date.",
+      "method": "Temporary wooden scaffolding towers: 12 units 30 m high and 4 units 45 m high (Google Arts). Small hoists fixed directly to the tower.",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Scaffolds: 12 x 30 m and 4 x 45 m (Google Arts) vs 12 x 30 m and 4 x 40 m (rarehistoricalphotos, 'four larger scaffolds of 40 meters each')."
+    },
+    {
+      "date": "1888-03-20",
+      "date_precision": "day",
+      "height_m": 57,
+      "event": "First platform (first level) completed. Height 57 m is the platform height from a search snippet, matched to the 20 March date caption (estimate for the reached height).",
+      "method": "Hot riveting by crews of four per rivet (one heats, one holds, one shapes the head, one hammers).",
+      "sources": [
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/",
+        "https://artsandculture.google.com/exhibit/AQIqOkVv",
+        "https://www.howitworksdaily.com/?p=25062"
+      ],
+      "conflicts": "Date of first platform: 20 Mar 1888 (rarehistoricalphotos caption) vs 1 Apr 1888 (toureiffel.paris, via search snippet; page not readable). Structurae reportedly gives 29 Apr 1888 for the four legs joined at first-platform level (search snippet only, not verified). The user brief said 'late March or April 1888'."
+    },
+    {
+      "date": "1888-07",
+      "date_precision": "month",
+      "height_m": 110,
+      "event": "Tower reaches about 360 ft (about 110 m, converted, estimate) as the second stage is completed.",
+      "method": "Riveting of the second stage; wooden scaffolds still in use.",
+      "sources": [
+        "https://www.unseenhistories.com/the-eiffel-tower-colourised-1888/",
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/"
+      ],
+      "conflicts": "rarehistoricalphotos dates the start of the second stage to May 1888 and gives a 'July 1888' photo caption with no stage. Google Arts gives June 1888 for the start of the second floor (French title) and September 1888 (English caption). The second-platform completion date conflicts with the 14 Aug 1888 item below."
+    },
+    {
+      "date": "1888-08-14",
+      "date_precision": "day",
+      "height_m": 115,
+      "event": "Second platform completed (height 115 m, from a search snippet of the official site and howitworksdaily; estimate for the reached height).",
+      "method": "Cranes and hoists on the legs; riveting crews.",
+      "sources": [
+        "https://www.toureiffel.paris/en/news/130-years/how-did-they-build-tower-so-quickly",
+        "https://www.howitworksdaily.com/?p=25062"
+      ],
+      "conflicts": "Official site (via search snippet, page 403) gives 14 Aug 1888. unseenhistories gives July 1888 for second-stage completion. rarehistoricalphotos gives May 1888 as the start of the second stage. Search snippet also reports creeper cranes on each leg; this is not confirmed by a fetched page."
+    },
+    {
+      "date": "1888-12",
+      "date_precision": "month",
+      "height_m": 183,
+      "event": "Upper stage under construction, above the middle floor. Height is a lower bound (estimate): the article says the tower had 'reached beyond 600 feet' by the end of 1888, about 183 m.",
+      "method": "Riveting of upper sections; hoists.",
+      "sources": [
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/",
+        "https://artsandculture.google.com/exhibit/AQIqOkVv",
+        "https://www.unseenhistories.com/the-eiffel-tower-colourised-1888/"
+      ],
+      "conflicts": "Google Arts gives September 1888 (English caption) and June 1888 (French title) for the work above the second floor, and December 1888 for work above the middle floor. The 600 ft figure is a loose lower bound; no fetched source gives a height for the December photo."
+    },
+    {
+      "date": "1889-03-15",
+      "date_precision": "day",
+      "height_m": 276,
+      "event": "Tower built up to and including the third floor, with the start of the lantern (Durandelle photo). Height 276 m is the third-platform height (estimate).",
+      "method": "Riveting; hoists; lifts being installed on the legs.",
+      "sources": ["https://www.musee-orsay.fr/en/artworks/la-tour-eiffel-jusquau-3e-etage-et-le-debut-du-lanternon-le-15-mars-1889-au-second-plan-les-batiments-de-lexposition-universelle-96655"],
+      "conflicts": "Height of the third floor (276 m) comes from a search snippet of howitworksdaily, not from the Orsay record itself."
+    },
+    {
+      "date": "1889-03-31",
+      "date_precision": "day",
+      "height_m": 300,
+      "event": "Construction finished; flag raised. Design height 300 m (estimate for the reached height; the flag brings the total to about 312 m).",
+      "method": "Final riveting; flagpole.",
+      "sources": [
+        "https://www.musee-orsay.fr/en/artworks/la-tour-eiffel-achevee-le-31-mars-1889-au-second-plan-les-batiments-de-lexposition-universelle-96707",
+        "https://artsandculture.google.com/exhibit/AQIqOkVv",
+        "https://www.toureiffel.paris/en/news/history-and-culture/300-330-meters-story-towers-height"
+      ],
+      "conflicts": "Completion: 31 Mar 1889 (Orsay, Google Arts, rarehistoricalphotos) vs 30 Mar 1889 for the end of assembly (search snippet). Height: 300 m (design) vs about 312 m with the flagpole (search snippet). Google Arts gives total duration of 2 years, 2 months, 5 days, which matches 26 Jan 1887 to 31 Mar 1889 exactly."
+    },
+    {
+      "date": "1889-05-04",
+      "date_precision": "day",
+      "height_m": 276,
+      "event": "Photo: tower built up to and including the third floor, before the Exposition opened (Durandelle).",
+      "method": "Finishing work; lifts being fitted.",
+      "sources": ["https://www.musee-orsay.fr/en/artworks/la-tour-eiffel-jusquau-3e-etage-compris-le-4-mai-1889-au-second-plan-les-batiments-de-lexposition-universelle-96704"],
+      "conflicts": "The photo shows the tower to the 3rd floor, but the caption does not state a height. 276 m is the third-platform height from a search snippet (estimate)."
+    },
+    {
+      "date": "1889-05-06",
+      "date_precision": "day",
+      "height_m": 312,
+      "event": "Exposition Universelle opens. Tower complete; total height with flag about 312 m (estimate).",
+      "method": "Completed structure.",
+      "sources": ["https://rarehistoricalphotos.com/eiffel-tower-construction/"],
+      "conflicts": "Opening date 6 May 1889 is from rarehistoricalphotos only in the fetched text. Height with flag (about 312 m) comes from a search snippet."
+    },
+    {
+      "date": "1889-05-15",
+      "date_precision": "day",
+      "height_m": 312,
+      "event": "Tower opens to the public (nine days after the Exposition opened, per rarehistoricalphotos).",
+      "method": "Public access by stairs and lifts.",
+      "sources": ["https://rarehistoricalphotos.com/eiffel-tower-construction/"],
+      "conflicts": "rarehistoricalphotos: public opening nine days after 6 May (= 15 May) but lifts entered service on 26 May. A search snippet of the official site says visitors could use the lifts almost from the very opening. The 15 May date itself is only from rarehistoricalphotos and was not confirmed by a primary source."
+    },
+    {
+      "date": "1889-05-26",
+      "date_precision": "day",
+      "height_m": 312,
+      "event": "Lifts enter service (per rarehistoricalphotos). Lift makers by leg: Roux, Combaluzier et Lepape (east and west, ground to first platform); Otis (north and south, to second platform); Edoux (second to top platform).",
+      "method": "Hydraulic lifts on the four legs; Otis, Roux-Combaluzier and Edoux systems.",
+      "sources": [
+        "https://rarehistoricalphotos.com/eiffel-tower-construction/",
+        "https://www.gracesguide.co.uk/Eiffel_Tower",
+        "https://www.toureiffel.paris/en/the-monument/lifts"
+      ],
+      "conflicts": "Lifts in service: 26 May 1889 (rarehistoricalphotos) vs 'almost from the very opening' (official site, search snippet). Grace's Guide: Roux lifts designed for 100 persons; Edoux lift in service until 1983. Official site: east and west lifts in service until 1897."
+    }
+  ],
+  "figures": [
+    {
+      "name": "metal_pieces",
+      "value": "18,038 (Google Arts summary, rarehistoricalphotos caption); about 18,000 (Google Arts body text)",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv", "https://rarehistoricalphotos.com/eiffel-tower-construction/"],
+      "conflicts": "A search snippet gives 12,000 parts (prefabrication figure), which may count assemblies rather than individual pieces."
+    },
+    {
+      "name": "rivets",
+      "value": "2,500,000",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv", "https://rarehistoricalphotos.com/eiffel-tower-construction/"],
+      "conflicts": "About a third inserted on site (Google Arts); a search snippet says about two-thirds were inserted at the factory. These are consistent with each other."
+    },
+    {
+      "name": "drawings",
+      "value": "5,300 workshop drawings",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Split of 700 + 3,629 was not found in any readable source; left unverified."
+    },
+    {
+      "name": "engineers_draughtsmen",
+      "value": "50",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": ""
+    },
+    {
+      "name": "site_workers",
+      "value": "150 to 300",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": ""
+    },
+    {
+      "name": "factory_workers_levallois_perret",
+      "value": "150",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": ""
+    },
+    {
+      "name": "riveting_crew",
+      "value": "4 men per rivet (heater, holder, head-shaper, hammerer)",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Crew count per team of riveters is not given in the fetched sources."
+    },
+    {
+      "name": "iron_weight",
+      "value": "7,300 tonnes",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Total with foundations and components about 10,100 t (search snippet only, source not identified)."
+    },
+    {
+      "name": "paint",
+      "value": "60 tonnes",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": ""
+    },
+    {
+      "name": "height_completion",
+      "value": "300 m (design); about 312 m with flagpole (opening day)",
+      "sources": ["https://www.toureiffel.paris/en/news/history-and-culture/300-330-meters-story-towers-height", "https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Later heights: 320.75 m (1957, with antenna) and 324 m (Paris history page), and 330 m as current official figure (search snippets). Sources disagree on the present-day figure."
+    },
+    {
+      "name": "platform_heights",
+      "value": "first platform about 57 m; second platform about 115 m; third (inner) platform about 276 m",
+      "sources": ["https://www.howitworksdaily.com/?p=25062"],
+      "conflicts": "Values come from search snippets; howitworksdaily gives 115 m and 276 m without dates."
+    },
+    {
+      "name": "base_size",
+      "value": "not verified (125 m in brief)",
+      "sources": [],
+      "conflicts": "No readable source gave a base size. A 15 m figure appears in a search snippet as a foundation depth, not a base size."
+    },
+    {
+      "name": "total_duration",
+      "value": "2 years, 2 months, 5 days (26 Jan 1887 to 31 Mar 1889)",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Matches the 26 Jan start exactly. A 28 Jan start would give 2 years, 2 months, 3 days."
+    },
+    {
+      "name": "scaffolds",
+      "value": "12 wooden scaffolds 30 m high; 4 larger scaffolds 45 m high (Google Arts)",
+      "sources": ["https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "rarehistoricalphotos: 12 x 30 m and 4 x 40 m."
+    },
+    {
+      "name": "caissons_compressed_air",
+      "value": "Compressed-air caissons for the Seine-side piers, 1887 (Orsay caption and Google Arts photo title)",
+      "sources": ["https://www.musee-orsay.fr/en/artworks/travaux-de-construction-de-la-tour-eiffel-caisson-metallique-air-comprime-larriere-plan-au-centre-le-trocadero-66017", "https://artsandculture.google.com/exhibit/AQIqOkVv"],
+      "conflicts": "Which piers: search snippet says piers 1 and 4; not verified in a fetched page."
+    },
+    {
+      "name": "sand_boxes_hydraulic_jacks",
+      "value": "not found",
+      "sources": [],
+      "conflicts": "Not mentioned in any readable source. Left blank rather than invented."
+    },
+    {
+      "name": "creeper_cranes",
+      "value": "Creeper cranes on the leg rails (search snippet only); steam cranes mentioned in the same snippet",
+      "sources": [],
+      "conflicts": "Not confirmed by a fetched page."
+    },
+    {
+      "name": "lift_makers",
+      "value": "Roux, Combaluzier et Lepape (east and west legs to first platform); Otis (north and south, to second platform); Edoux (second to top)",
+      "sources": ["https://www.toureiffel.paris/en/the-monument/lifts", "https://www.gracesguide.co.uk/Eiffel_Tower"],
+      "conflicts": "Official lifts page content taken from a search snippet."
+    }
+  ],
+  "notes": "Primary official pages (toureiffel.paris, structurae.net, britannica.com) returned HTTP 403 to WebFetch, so their values come from search snippets only and are marked as such; treat them as unverified until checked in a browser. Readable sources: Google Arts & Culture exhibit (AQIqOkVv), rarehistoricalphotos.com, unseenhistories.com, Musee d'Orsay catalogue records. Musee d'Orsay search returned no fact sheet, only photo records. No photo-dated checkpoint for December 1887 was found, so no height is given for it; the closest are the 1887 caisson photos (height 0) and the 1888 photos. Sources on the 1888 platform dates disagree most (20 Mar, 1 Apr, 29 Apr, 14 Aug, July 1888). Heights marked '(estimate)' are inferred from platform heights or converted from feet; height_m 0 for foundations and assembly start. Only one readable source gives total weight, so the 10,100 t figure is secondary only. Rivet-split and drawing-split figures could not be confirmed."
+}
